@@ -67,7 +67,7 @@ labels = ['1', '2', '3', '4', '1']
 plt.figure(figsize=(12, 5))
 
 # Temperature plot
-plt.subplot(1, 2, 1)
+plt.subplot(2, 2, 1)
 for i, r in enumerate(r_values):
     res = otto_cycle(r=r, T3=upper_temp_lim)
     T = [res['states'][f'T{i}'] for i in [1, 2, 3, 4]] + [res['states']['T1']]
@@ -79,11 +79,12 @@ plt.title("Temperature at each state")
 plt.legend()
 
 # Pressure plot
-plt.subplot(1, 2, 2)
+plt.subplot(2, 2, 2)
 for i, r in enumerate(r_values):
     res = otto_cycle(r=r, T3=upper_temp_lim)
     P = [res['states'][f'P{i}'] / 1e5 for i in [1, 2, 3, 4]] + [res['states']['P1'] / 1e5]
     plt.plot(range(1, 6), P, 'o-', label=f"r={r}", color=colors[i])
+
 plt.xticks(range(1, 6), labels)
 plt.ylabel("Pressure (bar)")
 plt.xlabel("State Point")
@@ -91,21 +92,19 @@ plt.title("Pressure at each state")
 plt.legend()
 
 plt.tight_layout()
-plt.show()
 
 
 r_range = np.linspace(3, 12, 100)
 etas = [otto_cycle(r=r)['eta'] * 100 for r in r_range]
 meps = [otto_cycle(r=r)['mep'] / 1e5 for r in r_range]
 
-plt.figure(figsize=(10, 4))
-plt.subplot(1, 2, 1)
+plt.subplot(2, 2, 3)
 plt.plot(r_range, etas, color='tab:blue')
 plt.xlabel("Compression Ratio (r)")
 plt.ylabel("Thermal Efficiency (%)")
 plt.title("Efficiency vs Compression Ratio")
 
-plt.subplot(1, 2, 2)
+plt.subplot(2, 2, 4)
 plt.plot(r_range, meps, color='tab:red')
 plt.xlabel("Compression Ratio (r)")
 plt.ylabel("MEP (bar)")
